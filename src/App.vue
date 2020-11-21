@@ -1,22 +1,12 @@
 <template>
   <div>
-    <TSTest></TSTest>
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <router-view />
   </div>
 </template>
 
-
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-import TSTest from "./components/TSTest.vue";
-
 export default {
   name: "App",
-  components: {
-    HelloWorld,
-    TSTest
-  }
 };
 </script>
 
@@ -26,7 +16,19 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: white;
+  background-color: #1F1D30;
+  padding-bottom: 20px;
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 </style>
