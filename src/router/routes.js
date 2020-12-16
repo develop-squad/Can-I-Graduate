@@ -5,9 +5,9 @@ const routes = [
         children: [{ path: "", component: () => import("../pages/Dashboard.vue") }]
     },
     {
-        path: "/menu2",
+        path: "/major-check",
         component: () => import("../layouts/DashboardLayout.vue"),
-        children: [{ path: "", component: () => import("../pages/Test.vue") }]
+        children: [{ path: "", component: () => import("../pages/MajorCheck.vue") }]
     },
     {
         path: "/menu3",

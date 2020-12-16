@@ -30,8 +30,8 @@ export default {
         case "dashboard":
           router.push("/");
           break;
-        case "menu2":
-          router.push("menu2");
+        case "majorCheck":
+          router.push("major-check");
           break;
 
         case "menu3":
