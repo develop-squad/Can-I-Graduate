@@ -136,3 +136,78 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="scss" scoped>
+.contents-card {
+  background-color: #28273f;
+  padding: 20px;
+  margin: 0 0 15px;
+
+  h2 {
+    text-align: left;
+  }
+
+  .major-search-form {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 2px solid black;
+  }
+}
+
+.contents-title {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  h1 {
+    margin: 0;
+  }
+
+  & &__right {
+    display: flex;
+    a {
+      text-decoration: none;
+      color: black;
+      padding: 8px 10px;
+      background-color: white;
+      height: fit-content;
+    }
+  }
+
+  & &__content {
+    width: 100%;
+    p {
+      text-align: left;
+    }
+  }
+}
+
+.major-search-wrapper {
+  display: flex;
+}
+
+.major-table {
+  li {
+    display: flex;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      width: 12.5%;
+
+      span {
+      }
+    }
+
+    .year {
+      width: 10%;
+    }
+    .name {
+      width: 15%;
+    }
+    .total {
+      width: 12%;
+    }
+  }
+}
+</style>

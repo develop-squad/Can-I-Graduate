@@ -64,6 +64,7 @@ export default {
 
   & > .main-container > .contents {
     width: 80%;
+    margin: 0 15px 0 0;
   }
 }
 </style>
