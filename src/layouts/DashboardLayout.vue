@@ -34,8 +34,8 @@ export default {
           router.push("major-check");
           break;
 
-        case "menu3":
-          router.push("menu3");
+        case "registerTest":
+          router.push("register-test");
           break;
       }
     };
