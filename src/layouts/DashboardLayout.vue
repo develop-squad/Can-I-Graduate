@@ -3,7 +3,7 @@
     <layout-header :tab="state.tab" />
     <div class="main-container">
       <sidebar :tab="state.tab" :changeTab="changeTab"></sidebar>
-      <router-view class="contents" />
+      <router-view class="contents" :checkRouter="checkRouter" />
     </div>
   </div>
 </template>
@@ -17,14 +17,33 @@ import router from "../router";
 export default {
   components: {
     Sidebar,
-    LayoutHeader,
+    LayoutHeader
   },
   setup() {
     const state = reactive({
-      tab: "dashboard",
+      tab: "dashboard"
     });
 
-    const changeTab = (tab) => {
+    const checkRouter = () => {
+      let routeTab = "";
+      switch (location.pathname.replace("/", "")) {
+        case "":
+          routeTab = "dashboard";
+          break;
+        case "major-check":
+          routeTab = "majorCheck";
+          break;
+        case "register-test":
+          routeTab = "registerTest";
+          break;
+      }
+
+      if (routeTab != state.tab) {
+        state.tab = routeTab;
+      }
+    };
+
+    const changeTab = tab => {
       state.tab = tab;
       switch (tab) {
         case "dashboard":
@@ -43,8 +62,9 @@ export default {
     return {
       state,
       changeTab,
+      checkRouter
     };
-  },
+  }
 };
 </script>
 

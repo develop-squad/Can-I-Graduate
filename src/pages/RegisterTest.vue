@@ -17,8 +17,11 @@
 import { defineComponent, reactive } from "vue";
 
 export default defineComponent({
-  setup() {
+  props: ["checkRouter"],
+  setup(props) {
     const state = reactive({});
+
+    props.checkRouter();
 
     return {
       state

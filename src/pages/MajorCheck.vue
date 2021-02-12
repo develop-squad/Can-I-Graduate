@@ -65,7 +65,8 @@ import { defineComponent, onMounted, reactive } from "vue";
 import axios from "axios";
 
 export default defineComponent({
-  setup() {
+  props: ["checkRouter"],
+  setup(props) {
     const state = reactive({
       majorList: [],
       yearList: [],
@@ -124,6 +125,8 @@ export default defineComponent({
     const onChangeSearch = () => {
       console.log(state.searchYear, state.textInput);
     };
+
+    props.checkRouter();
 
     onMounted(() => {
       getMajorList();

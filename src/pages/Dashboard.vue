@@ -7,17 +7,20 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 export default defineComponent({
-  setup() {
+  props: ["checkRouter"],
+  setup(props) {
     const count = ref(0);
     const onClickBtn = () => {
       // console.log(defineComponent);
       count.value++;
     };
 
+    props.checkRouter();
+
     return {
       count,
-      onClickBtn,
+      onClickBtn
     };
-  },
+  }
 });
 </script>
