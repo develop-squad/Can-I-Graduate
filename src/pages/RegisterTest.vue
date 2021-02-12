@@ -3,7 +3,7 @@
     <div class="contents-card contents-title">
       <h1>RegisterTest</h1>
       <div class="contents-title__right">
-        <a href="/test">체험하기</a>
+        <a class="cig-button" href="/test">체험하기</a>
       </div>
 
       <div class="contents-title__content">
@@ -58,13 +58,8 @@ export default defineComponent({
 
   & &__right {
     display: flex;
-    a {
-      text-decoration: none;
-      color: black;
-      padding: 8px 10px;
-      background-color: white;
-      height: fit-content;
-    }
+    flex-direction: column;
+    justify-content: center;
   }
 
   & &__content {

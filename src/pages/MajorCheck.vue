@@ -4,6 +4,7 @@
       <h1>MajorCheck</h1>
       <div class="contents-title__right">
         <a
+          class="cig-button"
           href="https://docs.google.com/forms/d/e/1FAIpQLSfvKUcKaZdoS9eXbIYlkc_o5ZFTrqHApygLUXJdbinuAiIXVA/viewform"
         >추가하기</a>
       </div>
