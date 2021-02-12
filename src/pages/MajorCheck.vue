@@ -15,18 +15,23 @@
     </div>
 
     <div class="contents-card">
-      <h2>Search</h2>
-      <div class="major-search-wrapper">
-        <select name="admission-year" v-model="state.searchYear" @change="onChangeSearch">
-          <option value>입학년도</option>
-          <option v-for="(item, index) in state.yearList" :key="index" v-on:value="item">{{item}}</option>
-        </select>
-        <input class="major-search-form" type="text" v-model="state.textInput" v-on:input="state.textInput=$event.target.value" @keyup="onChangeSearch" />
-      </div>
-    </div>
+      <h2>
+        List
+        <div class="major-search-wrapper">
+          <select name="admission-year" v-model="state.searchYear" @change="onChangeSearch">
+            <option value>입학년도</option>
+            <option v-for="(item, index) in state.yearList" :key="index" v-on:value="item">{{item}}</option>
+          </select>
+          <input
+            class="major-search-form"
+            type="text"
+            v-model="state.textInput"
+            v-on:input="state.textInput=$event.target.value"
+            @keyup="onChangeSearch"
+          />
+        </div>
+      </h2>
 
-    <div class="contents-card">
-      <h2>List</h2>
       <ul class="major-table">
         <li>
           <div class="year">입학년도</div>
@@ -124,7 +129,19 @@ export default defineComponent({
     };
 
     const onChangeSearch = () => {
-      console.log(state.searchYear, state.textInput);
+      let refinedMajorList = [...state.majorList];
+      if (state.searchYear) {
+        refinedMajorList = refinedMajorList.filter(
+          el => el.year == state.searchYear
+        );
+      }
+
+      if (state.textInput) {
+        refinedMajorList = refinedMajorList.filter(el =>
+          el.major.includes(state.textInput)
+        );
+      }
+      console.log(refinedMajorList);
     };
 
     props.checkRouter();
@@ -149,6 +166,8 @@ export default defineComponent({
 
   h2 {
     text-align: left;
+    display: flex;
+    justify-content: space-between;
   }
 
   .major-search-form {
@@ -169,13 +188,7 @@ export default defineComponent({
 
   & &__right {
     display: flex;
-    a {
-      text-decoration: none;
-      color: black;
-      padding: 8px 10px;
-      background-color: white;
-      height: fit-content;
-    }
+    align-items: center;
   }
 
   & &__content {
@@ -188,6 +201,7 @@ export default defineComponent({
 
 .major-search-wrapper {
   display: flex;
+  padding: 0 0 20px 0;
 }
 
 .major-table {
