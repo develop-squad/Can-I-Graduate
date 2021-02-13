@@ -104,12 +104,14 @@ import * as chartConfigs from "../components/Charts/config";
 import config from "../config";
 import BarChart from "../components/Charts/BarChart";
 export default defineComponent({
+  props: ["checkRouter"],
+
   components: {
     // chartConfigs,
     // config,
     BarChart,
   },
-  setup() {
+  setup(props) {
     // const uploadFile = (event: any): void => {
     onMounted(() => {
       setRequrmentCredit("컴퓨터공학과");
@@ -241,6 +243,7 @@ export default defineComponent({
         pageData.myData.major_E +
         pageData.myData.major_S;
 
+
       pageData.blueBarChart.chartData.datasets[0].data.forEach((c, index) => {
         if (c < 0 && index != 5) {
           pageData.blueBarChart.chartData.datasets[0].data[5] += c;
@@ -264,14 +267,18 @@ export default defineComponent({
       pageData.requirementCredit.liberal_B = majorData.liberal_B;
       pageData.requirementCredit.major_E = majorData.major_E;
       pageData.requirementCredit.major_S = majorData.major_S;
-    };
+    };    
+    
+    props.checkRouter();
+    
+    
     return {
       pageData,
       uploadFile,
       setData,
       setRequrmentCredit,
     };
-  },
+  }
 });
 </script>
 <style lang="scss">

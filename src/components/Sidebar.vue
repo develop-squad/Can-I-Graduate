@@ -2,8 +2,8 @@
   <div class="sidebar">
     <ul>
       <li v-bind:class="tab == 'dashboard' ? 'selected' : ''" @click="onClickTab('dashboard')">Dashboard</li>
-      <li v-bind:class="tab == 'menu2' ? 'selected' : ''" @click="onClickTab('menu2')">Menu 02</li>
-      <li v-bind:class="tab == 'menu3' ? 'selected' : ''" @click="onClickTab('menu3')">Menu 03</li>
+      <li v-bind:class="tab == 'majorCheck' ? 'selected' : ''" @click="onClickTab('majorCheck')">MajorCheck</li>
+      <li v-bind:class="tab == 'registerTest' ? 'selected' : ''" @click="onClickTab('registerTest')">RegisterTest</li>
     </ul>
   </div>
 </template>
