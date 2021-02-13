@@ -13,7 +13,7 @@
     "node-sass": "^5.0.0",
     "sass-loader": "^10.1.0",
     "vue": "^3.0.0",
-    "vue-chartjs": "^3.5.1",
+    "vue-chartjs": "https://github.com/davidrunger/vue-chartjs.git\\#vue-3",
     "vue-router": "^4.0.0-rc.4",
     "xlsx": "^0.16.9"
   },
