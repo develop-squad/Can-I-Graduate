@@ -107,6 +107,25 @@ export default defineComponent({
     const onClickNone = () => {
       alert("지원하지 않는 기능입니다.");
     };
+
+    const classData = [
+      {
+        classNum: "000001",
+        group: "001",
+        major: "컴퓨터공학과",
+        name: "테스트전공",
+        lang: "",
+        point: "3",
+        type: "전선",
+        grade: "1",
+        time: "월09:00~12:00",
+        people: "50",
+        memo: "",
+        online: "",
+
+      }
+    ];
+
     return {
       onClickNone
     };
