@@ -18,9 +18,83 @@
       <div class="test-main">
         <div class="register-header">
           <div class="register-header__notice">경고 : 세종대학교 수강 신청 시뮬레이션 사이트 입니다.</div>
-          <div class="register-header__search">과목 검색 하는곳</div>
+          <div class="register-header__search">
+            <div class="register-header__line">
+              <div>
+                <span>조직분류</span>
+                <select>
+                  <option value>- 전체 -</option>
+                </select>
+              </div>
+              <div>
+                <span>년도/학기</span>
+                <select>
+                  <option value>- 전체 -</option>
+                </select>
+              </div>
+            </div>
+            <div class="register-header__line">
+              <div>
+                <span>주전공(교직)</span>
+                <select>
+                  <option value>- 전체 -</option>
+                </select>
+              </div>
+              <div>
+                <span>복수전공(교직)</span>
+                <select>
+                  <option value>- 전체 -</option>
+                </select>
+              </div>
+              <div>
+                <span>부전공(교직)</span>
+                <select>
+                  <option value>- 전체 -</option>
+                </select>
+              </div>
+            </div>
+            <div class="register-header__line">
+              <div>
+                <span>검색구분</span>
+                <select>
+                  <option value>- 전체 -</option>
+                </select>
+              </div>
+              <div>
+                <span>학수번호:</span>
+                <select>
+                  <option value>- 전체 -</option>
+                </select>
+                <input type="text" />
+              </div>
+              <div>
+                <span>분반:</span>
+                <input type="text" />
+              </div>
+              <div>
+                <button>조회</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="register-main">메인 영역</div>
+        <div class="register-main">
+          <div>
+            <div>
+              <span>수강대상교과목</span>
+            </div>
+            <ul>
+              <li></li>
+            </ul>
+          </div>
+          <div>
+            <div>
+              <span>수강신청내역</span>
+            </div>
+            <ul>
+              <li></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -126,6 +200,10 @@ export default defineComponent({
           background-color: #f8f8f8;
           border-top: 1px solid #dedede;
           border-bottom: 1px solid #dedede;
+        }
+
+        &__line {
+          display: flex;
         }
       }
     }
