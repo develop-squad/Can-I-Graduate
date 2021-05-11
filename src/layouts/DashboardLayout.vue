@@ -1,8 +1,8 @@
 <template>
   <div class="layout">
     <layout-header :tab="state.tab" />
-    <div class="main-container">
-      <sidebar :tab="state.tab" :changeTab="changeTab"></sidebar>
+    <sidebar :tab="state.tab" :changeTab="changeTab"></sidebar>
+    <div class="contents-wrapper">
       <router-view class="contents" :checkRouter="checkRouter" />
     </div>
   </div>
@@ -72,19 +72,16 @@ export default {
 .layout {
   display: flex;
   flex-wrap: wrap;
-
-  & > .main-container {
-    display: flex;
-    width: 100%;
+  height: 100vh;
+  .sidebar {
+    width: calc(20% - 30px);
+    height: calc(100vh - 89px);
   }
-
-  & > .main-container > .sidebar {
-    width: 20%;
-  }
-
-  & > .main-container > .contents {
-    width: 80%;
+  .contents-wrapper {
+    width: calc(80% - 15px);
     margin: 0 15px 0 0;
+    overflow: scroll;
+    height: calc(100vh - 89px);
   }
 
   .cig-button {

@@ -34,7 +34,7 @@ export default {
 
 <style lang="scss" scoped>
 .sidebar {
-  margin: 0 15px;
+  margin: 0 15px 15px;
   background-color: #28273f;
   border-radius: 4px;
 

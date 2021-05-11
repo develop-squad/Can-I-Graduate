@@ -7,26 +7,24 @@
         - 성적엑셀다운로드
       </p>
       <div class="file-upload-button">
-        <label for="file-input">Upload</label>
-        <input
-          type="file"
-          id="file-input"
-          @change="uploadFile"
-          accept="application/vnd.ms-excel"
-        />
+        <label for="file-input">
+          <span>Upload</span>
+        </label>
+        <input type="file" id="file-input" @change="uploadFile" accept="application/vnd.ms-excel" />
       </div>
     </section>
-    <section class="requirement-panel">
+
+    <section class="requirement-panel harf-panel">
       <h1>Graduate Requirement</h1>
       <div class="inputs">
         <div class="input">
           <label for="req1">교양필수(중핵필수)</label>
-          <input name="req1" type="text" v-model="pageData.requirementCredit.liberal_E"/>
+          <input name="req1" type="text" v-model="pageData.requirementCredit.liberal_E" />
           <!-- <input name="req1" type="text" /> -->
         </div>
         <div class="input">
           <label for="req2">교양선택1(중핵필수선택)</label>
-          <input name="req2" type="text" v-model="pageData.requirementCredit.liberal_S1"/>
+          <input name="req2" type="text" v-model="pageData.requirementCredit.liberal_S1" />
           <!-- <input name="req2" type="text" /> -->
         </div>
         <div class="input">
@@ -46,7 +44,8 @@
         </div>
       </div>
     </section>
-    <section class="my-credit-panel">
+
+    <section class="my-credit-panel harf-panel">
       <h1>My Credit</h1>
       <div class="inputs">
         <div class="input">
@@ -81,6 +80,7 @@
         </div>
       </div>
     </section>
+
     <section class="graph-panel">
       <h1>Remain Credits</h1>
       <div class="chart-area">
@@ -109,13 +109,13 @@ export default defineComponent({
   components: {
     // chartConfigs,
     // config,
-    BarChart,
+    BarChart
   },
   setup(props) {
     // const uploadFile = (event: any): void => {
     onMounted(() => {
       setRequrmentCredit("컴퓨터공학과");
-    })
+    });
     const pageData = reactive({
       classList: [],
       myData: {
@@ -125,7 +125,7 @@ export default defineComponent({
         liberal_S2: 0,
         liberal_B: 0,
         major_E: 0,
-        major_S: 0,
+        major_S: 0
       },
       majorList: [
         {
@@ -135,8 +135,8 @@ export default defineComponent({
           liberal_S2: 0,
           liberal_B: 12,
           major_E: 27,
-          major_S: 45,
-        },
+          major_S: 45
+        }
       ],
       requirementCredit: {
         total: 130,
@@ -145,7 +145,7 @@ export default defineComponent({
         liberal_S2: 0,
         liberal_B: 0,
         major_E: 0,
-        major_S: 0,
+        major_S: 0
       },
       blueBarChart: {
         extraOptions: chartConfigs.barChartOptions,
@@ -159,29 +159,29 @@ export default defineComponent({
               borderWidth: 2,
               borderDash: [],
               borderDashOffset: 0.0,
-              data: [10, 0, 0, 0, 0, 0],
-            },
-          ],
+              data: [10, 0, 0, 0, 0, 0]
+            }
+          ]
         },
         gradientColors: config.colors.primaryGradient,
-        gradientStops: [1, 0.4, 0],
+        gradientStops: [1, 0.4, 0]
       },
-      chartLoad: false,
+      chartLoad: false
     });
-    const uploadFile = (event) => {
+    const uploadFile = event => {
       let input = event.target;
       let reader = new FileReader();
       reader.onload = () => {
         let fileData = reader.result;
         let wb = XLSX.read(fileData, { type: "binary" });
-        wb.SheetNames.forEach(function (sheetName) {
+        wb.SheetNames.forEach(function(sheetName) {
           let rowObj = XLSX.utils.sheet_to_json(wb.Sheets[sheetName]);
           setData(rowObj);
         });
       };
       reader.readAsBinaryString(input.files[0]);
     };
-    const setData = (data) => {
+    const setData = data => {
       console.log(data);
       let requireLiberal_S2 =
         pageData.requirementCredit.total -
@@ -196,12 +196,12 @@ export default defineComponent({
         pageData.requirementCredit.liberal_B,
         pageData.requirementCredit.major_E,
         pageData.requirementCredit.major_S,
-        requireLiberal_S2,
+        requireLiberal_S2
       ];
       console.log(pageData.blueBarChart.chartData);
       pageData.blueBarChart.chartData.datasets[0].data = chartData;
 
-      data.forEach((r) => {
+      data.forEach(r => {
         pageData.classList.push(r);
         let credit = parseInt(r["학점"]);
         switch (r["이수구분"]) {
@@ -243,7 +243,6 @@ export default defineComponent({
         pageData.myData.major_E +
         pageData.myData.major_S;
 
-
       pageData.blueBarChart.chartData.datasets[0].data.forEach((c, index) => {
         if (c < 0 && index != 5) {
           pageData.blueBarChart.chartData.datasets[0].data[5] += c;
@@ -259,50 +258,114 @@ export default defineComponent({
       pageData.chartLoad = true;
       alert("chartload is true");
     };
-    const setRequrmentCredit = (major) => {
-      let majorData = pageData.majorList.find((m) => m.label == major);
+    const setRequrmentCredit = major => {
+      let majorData = pageData.majorList.find(m => m.label == major);
       pageData.requirementCredit.liberal_E = majorData.liberal_E;
       pageData.requirementCredit.liberal_S1 = majorData.liberal_S1;
       pageData.requirementCredit.liberal_S2 = majorData.liberal_S2;
       pageData.requirementCredit.liberal_B = majorData.liberal_B;
       pageData.requirementCredit.major_E = majorData.major_E;
       pageData.requirementCredit.major_S = majorData.major_S;
-    };    
-    
+    };
+
     props.checkRouter();
-    
-    
+
     return {
       pageData,
       uploadFile,
       setData,
-      setRequrmentCredit,
+      setRequrmentCredit
     };
   }
 });
 </script>
+
 <style lang="scss">
 .dashboard {
-  // background-color: white;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-areas:
-    "upload-panel upload-panel"
-    "requirement-panel my-credit-panel"
-    "graph-panel graph-panel";
+  display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  .upload-panel,
-  .requirement-panel,
-  .my-credit-panel,
-  .graph-panel {
+
+  section {
+    background-color: #28273e;
+    border-radius: 4px;
+    margin: 0 0 10px;
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: calc(100% - 32px);
+
+    &.harf-panel {
+      width: calc(50% - 37px);
+    }
+
     h1 {
-      font-size: 13px;
+      margin: 0 0 8px;
+      padding: 0 0 8px;
+      border-bottom: 1px solid #ffffff66;
+      font-size: 18px;
       font-weight: 600;
     }
-    background-color: #27293d;
-    border-radius: 10px;
-    margin: 5px;
+
+    p {
+      margin: 0;
+    }
+
+    &.upload-panel {
+      .file-upload-button {
+        margin: 16px 0 0;
+        display: flex;
+        justify-content: flex-end;
+
+        label {
+          position: relative;
+          display: flex;
+          color: white;
+          border-radius: 4px;
+          cursor: pointer;
+          overflow: hidden;
+
+          &::before {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            width: calc(100% + 16px);
+            height: calc(100% + 16px);
+            background: linear-gradient(to bottom left, #1d8cf8, #e14eca);
+            border-radius: 4px;
+            content: "";
+            z-index: 0;
+          }
+
+          span {
+            z-index: 1;
+            padding: 6px 18px;
+            border-radius: 4px;
+            background-color: #8274e5;
+            transition: background-color 0.6s cubic-bezier(0.83, 0, 0.17, 1);
+          }
+
+          &:hover,
+          &:active {
+            span {
+              background-color: transparent;
+            }
+          }
+        }
+
+        input[type="file"] {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          border: 0;
+        }
+      }
+    }
   }
 
   .requirement-panel,
@@ -325,40 +388,6 @@ export default defineComponent({
     }
   }
 
-  .upload-panel {
-    grid-area: upload-panel;
-    .file-upload-button {
-      label {
-        display: inline-block;
-        padding: 0.5em 0.75em;
-        color: white;
-        font-size: inherit;
-        line-height: normal;
-        vertical-align: middle;
-        // background-color: #fdfdfd;
-        background-image: linear-gradient(
-          to bottom left,
-          #e14eca,
-          #ba54f5,
-          #e14eca
-        );
-        cursor: pointer;
-        // border: 1px solid #ebebeb;
-        border-bottom-color: #e2e2e2;
-        border-radius: 0.25em;
-      }
-      input[type="file"] {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        border: 0;
-      }
-    }
-  }
   .requirement-panel {
     grid-area: requirement-panel;
   }

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <script>
@@ -10,25 +8,27 @@ export default {
 };
 </script>
 
-<style>
-#app {
-  font-family: "Noto Sans KR", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: white;
+<style lang="scss">
+html {
   background-color: #1f1d30;
-  padding-bottom: 20px;
   height: 100vh;
-}
+  body {
+    margin: 0;
+    height: 100vh;
+    #app {
+      height: 100vh;
+      font-family: "Noto Sans KR", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: white;
 
-body {
-  margin: 0;
-}
-
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
 }
 </style>

@@ -8,30 +8,30 @@
 <script>
 export default {
   props: {
-    tab: String,
-  },
+    tab: String
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 .header {
-  width: 100%;
   padding: 10px 15px;
+  width: 100%;
   display: flex;
   flex-direction: column;
 
-  & > h1,
-  & > h2 {
+  h1,
+  h2 {
     text-align: left;
     margin: 0;
   }
 
-  & > h1 {
-    font-size: 18px;
+  h1 {
+    font-size: 20px;
   }
 
-  & > h2 {
-    font-size: 14px;
+  h2 {
+    font-size: 16px;
   }
 }
 </style>
