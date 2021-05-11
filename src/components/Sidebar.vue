@@ -3,7 +3,7 @@
     <ul>
       <li v-bind:class="tab == 'dashboard' ? 'selected' : ''" @click="onClickTab('dashboard')">Dashboard</li>
       <li v-bind:class="tab == 'majorCheck' ? 'selected' : ''" @click="onClickTab('majorCheck')">MajorCheck</li>
-      <li v-bind:class="tab == 'registerTest' ? 'selected' : ''" @click="onClickTab('registerTest')">RegisterTest</li>
+      <!-- <li v-bind:class="tab == 'registerTest' ? 'selected' : ''" @click="onClickTab('registerTest')">RegisterTest</li> -->
     </ul>
   </div>
 </template>
