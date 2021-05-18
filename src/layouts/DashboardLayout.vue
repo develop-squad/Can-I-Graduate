@@ -3,7 +3,7 @@
     <layout-header :tab="state.tab" />
     <sidebar :tab="state.tab" :changeTab="changeTab"></sidebar>
     <div class="contents-wrapper">
-      <router-view class="contents" :checkRouter="checkRouter" />
+      <router-view class="contents" :checkRouter="checkRouter" :majorList="state.majorList" />
     </div>
   </div>
 </template>
@@ -13,6 +13,7 @@ import Sidebar from "../components/Sidebar";
 import LayoutHeader from "../components/LayoutHeader";
 import { reactive } from "vue";
 import router from "../router";
+import axios from "axios";
 
 export default {
   components: {
@@ -21,8 +22,50 @@ export default {
   },
   setup() {
     const state = reactive({
+      majorList: [],
       tab: "dashboard"
     });
+
+    const getMajorList = () => {
+      const sheetUrl =
+        "https://spreadsheets.google.com/feeds/cells/1xkSro5XjOkM1_mJqCcXgfqlvk1DsaLlmeTyA1A8_DBQ/2/public/basic?alt=json-in-script";
+
+      const api = axios.create();
+      let sheetDataList = [];
+
+      axios
+        .all([api.get(sheetUrl)])
+        .then(res => {
+          const sheetData = JSON.parse(
+            res[0].data.slice(28, res[0].data.length - 2)
+          );
+
+          sheetData.feed.entry.forEach((el, index) => {
+            const lineNum = Math.floor(index / 10);
+            if (index % 10 == 0 && lineNum > 0) {
+              const dataObj = {
+                time: sheetData.feed.entry[index].content.$t,
+                major: sheetData.feed.entry[index + 1].content.$t,
+                year: sheetData.feed.entry[index + 2].content.$t,
+                grade01: sheetData.feed.entry[index + 3].content.$t,
+                grade02: sheetData.feed.entry[index + 4].content.$t,
+                grade03: sheetData.feed.entry[index + 5].content.$t,
+                grade04: sheetData.feed.entry[index + 6].content.$t,
+                grade05: sheetData.feed.entry[index + 7].content.$t,
+                totalGrade: sheetData.feed.entry[index + 8].content.$t,
+                leftGrade: sheetData.feed.entry[index + 9].content.$t
+              };
+              sheetDataList.push(dataObj);
+            }
+          });
+
+          state.majorList = sheetDataList;
+          console.log(sheetDataList);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    };
 
     const checkRouter = () => {
       let routeTab = "";
@@ -58,6 +101,8 @@ export default {
           break;
       }
     };
+
+    getMajorList();
 
     return {
       state,
