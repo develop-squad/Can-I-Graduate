@@ -16,31 +16,36 @@
 
     <section class="requirement-panel harf-panel">
       <h1>Graduate Requirement</h1>
+      <div>
+        <select v-model="selectedMajor" @change="onSelectMajor">
+          <option value>-- 전공을 선택해주세요 --</option>
+          <option
+            :value="item"
+            v-for="(item, index) in majorList"
+            :key="index"
+          >{{item.year}} - {{item.major}}</option>
+        </select>
+      </div>
       <div class="inputs">
         <div class="input">
           <label for="req1">교양필수(중핵필수)</label>
-          <input name="req1" type="text" v-model="pageData.requirementCredit.liberal_E" />
-          <!-- <input name="req1" type="text" /> -->
+          <input name="req1" type="text" v-model="requirementPoint[0]" />
         </div>
         <div class="input">
           <label for="req2">교양선택1(중핵필수선택)</label>
-          <input name="req2" type="text" v-model="pageData.requirementCredit.liberal_S1" />
-          <!-- <input name="req2" type="text" /> -->
+          <input name="req2" type="text" v-model="requirementPoint[1]" />
         </div>
         <div class="input">
           <label for="req3">전공기초교양</label>
-          <input name="req3" type="text" v-model="pageData.requirementCredit.liberal_B" />
-          <!-- <input name="req3" type="text" /> -->
+          <input name="req3" type="text" v-model="requirementPoint[2]" />
         </div>
         <div class="input">
           <label for="req4">전공필수</label>
-          <input name="req4" type="text" v-model="pageData.requirementCredit.major_E" />
-          <!-- <input name="req4" type="text" /> -->
+          <input name="req4" type="text" v-model="requirementPoint[3]" />
         </div>
         <div class="input">
           <label for="req5">전공선택</label>
-          <input name="req5" type="text" v-model="pageData.requirementCredit.major_S" />
-          <!-- <input name="req5" type="text" /> -->
+          <input name="req5" type="text" v-model="requirementPoint[4]" />
         </div>
       </div>
     </section>
@@ -50,33 +55,27 @@
       <div class="inputs">
         <div class="input">
           <label for="req1">교양필수(중핵필수)</label>
-          <input name="req1" type="text" v-model="pageData.myData.liberal_E" />
-          <!-- <input name="req1" type="text" /> -->
+          <input name="req1" type="text" v-model="myGrade[0]" />
         </div>
         <div class="input">
           <label for="req2">교양선택1(중핵필수선택)</label>
-          <input name="req2" type="text" v-model="pageData.myData.liberal_S1" />
-          <!-- <input name="req2" type="text" /> -->
+          <input name="req2" type="text" v-model="myGrade[1]" />
         </div>
         <div class="input">
           <label for="req3">전공기초교양</label>
-          <input name="req3" type="text" v-model="pageData.myData.liberal_B" />
-          <!-- <input name="req3" type="text" /> -->
+          <input name="req3" type="text" v-model="myGrade[2]" />
         </div>
         <div class="input">
           <label for="req4">전공필수</label>
-          <input name="req4" type="text" v-model="pageData.myData.major_E" />
-          <!-- <input name="req4" type="text" /> -->
+          <input name="req4" type="text" v-model="myGrade[3]" />
         </div>
         <div class="input">
           <label for="req5">전공선택</label>
-          <input name="req5" type="text" v-model="pageData.myData.major_S" />
-          <!-- <input name="req5" type="text" /> -->
+          <input name="req5" type="text" v-model="myGrade[4]" />
         </div>
         <div class="input">
           <label for="req5">교양선택2(자유교양)</label>
-          <input name="req5" type="text" v-model="pageData.myData.liberal_S2" />
-          <!-- <input name="req5" type="text" /> -->
+          <input name="req5" type="text" v-model="myGrade[5]" />
         </div>
       </div>
     </section>
@@ -85,12 +84,12 @@
       <h1>Remain Credits</h1>
       <div class="chart-area">
         <BarChart
-          v-if="pageData.chartLoad"
+          v-if="chartLoad"
           style="height: 100%"
           chart-id="blue-bar-chart"
-          :chart-data="pageData.blueBarChart.chartData"
-          :gradient-stops="pageData.blueBarChart.gradientStops"
-          :extra-options="pageData.blueBarChart.extraOptions"
+          :chart-data="blueBarChart.chartData"
+          :gradient-stops="blueBarChart.gradientStops"
+          :extra-options="blueBarChart.extraOptions"
         ></BarChart>
       </div>
     </section>
@@ -98,183 +97,156 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive } from "vue";
+import { defineComponent, computed, ref } from "vue";
+
 import XLSX from "xlsx";
 import * as chartConfigs from "../components/Charts/config";
 import config from "../config";
 import BarChart from "../components/Charts/BarChart";
-export default defineComponent({
-  props: ["checkRouter"],
 
+export default defineComponent({
+  props: ["checkRouter", "majorList"],
   components: {
-    // chartConfigs,
-    // config,
     BarChart
   },
+
   setup(props) {
-    // const uploadFile = (event: any): void => {
-    onMounted(() => {
-      setRequrmentCredit("컴퓨터공학과");
+    const majorList = ref(computed(() => props.majorList));
+    const selectedMajor = ref("");
+
+    const requirementPoint = ref([0, 0, 0, 0, 0, 0]);
+    const myGrade = ref([0, 0, 0, 0, 0, 0]);
+
+    const blueBarChart = ref({
+      extraOptions: chartConfigs.barChartOptions,
+      chartData: {
+        labels: ["교필", "교선1", "기교", "전필", "전선", "교선2"],
+        datasets: [
+          {
+            label: "이수 학점",
+            fill: true,
+            borderColor: config.colors.info,
+            borderWidth: 1,
+            borderDash: [],
+            borderDashOffset: 0.0,
+            data: [0, 0, 0, 0, 0, 0]
+          },
+          {
+            label: "필요 학점",
+            fill: true,
+            borderColor: "#d1515f",
+            borderWidth: 1,
+            borderDash: [],
+            borderDashOffset: 0.0,
+            data: [0, 0, 0, 0, 0, 0]
+          }
+        ]
+      },
+      gradientColors: config.colors.primaryGradient,
+      gradientStops: [1, 0.4, 0]
     });
-    const pageData = reactive({
-      classList: [],
-      myData: {
-        total: 0,
-        liberal_E: 0,
-        liberal_S1: 0,
-        liberal_S2: 0,
-        liberal_B: 0,
-        major_E: 0,
-        major_S: 0
-      },
-      majorList: [
-        {
-          label: "컴퓨터공학과",
-          liberal_E: 11,
-          liberal_S1: 15,
-          liberal_S2: 0,
-          liberal_B: 12,
-          major_E: 27,
-          major_S: 45
-        }
-      ],
-      requirementCredit: {
-        total: 130,
-        liberal_E: 0,
-        liberal_S1: 0,
-        liberal_S2: 0,
-        liberal_B: 0,
-        major_E: 0,
-        major_S: 0
-      },
-      blueBarChart: {
-        extraOptions: chartConfigs.barChartOptions,
-        chartData: {
-          labels: ["교필", "교선1", "기교", "전필", "전선", "교선2"],
-          datasets: [
-            {
-              label: "Countries",
-              fill: true,
-              borderColor: config.colors.info,
-              borderWidth: 2,
-              borderDash: [],
-              borderDashOffset: 0.0,
-              data: [10, 0, 0, 0, 0, 0]
-            }
-          ]
-        },
-        gradientColors: config.colors.primaryGradient,
-        gradientStops: [1, 0.4, 0]
-      },
-      chartLoad: false
-    });
+
+    const chartLoad = ref(false);
+
     const uploadFile = event => {
-      let input = event.target;
-      let reader = new FileReader();
+      chartLoad.value = false;
+      const input = event.target;
+      const reader = new FileReader();
       reader.onload = () => {
-        let fileData = reader.result;
-        let wb = XLSX.read(fileData, { type: "binary" });
-        wb.SheetNames.forEach(function(sheetName) {
-          let rowObj = XLSX.utils.sheet_to_json(wb.Sheets[sheetName]);
-          setData(rowObj);
+        const fileData = reader.result;
+        const wb = XLSX.read(fileData, { type: "binary" });
+        wb.SheetNames.forEach(sheetName => {
+          setMyGrade(XLSX.utils.sheet_to_json(wb.Sheets[sheetName]));
         });
       };
       reader.readAsBinaryString(input.files[0]);
     };
-    const setData = data => {
-      console.log(data);
-      let requireLiberal_S2 =
-        pageData.requirementCredit.total -
-        (pageData.requirementCredit.liberal_E +
-          pageData.requirementCredit.liberal_S1 +
-          pageData.requirementCredit.liberal_B +
-          pageData.requirementCredit.major_E +
-          pageData.requirementCredit.major_S);
-      let chartData = [
-        pageData.requirementCredit.liberal_E,
-        pageData.requirementCredit.liberal_S1,
-        pageData.requirementCredit.liberal_B,
-        pageData.requirementCredit.major_E,
-        pageData.requirementCredit.major_S,
-        requireLiberal_S2
-      ];
-      console.log(pageData.blueBarChart.chartData);
-      pageData.blueBarChart.chartData.datasets[0].data = chartData;
 
-      data.forEach(r => {
-        pageData.classList.push(r);
-        let credit = parseInt(r["학점"]);
-        switch (r["이수구분"]) {
+    const setMyGrade = gradeList => {
+      const gradePointList = [0, 0, 0, 0, 0, 0];
+      gradeList.forEach(grade => {
+        // console.log(grade["학점"], grade["이수구분"], grade["등급"]);
+        switch (grade["이수구분"]) {
           case "교필":
-            pageData.myData.liberal_E += credit;
-            pageData.blueBarChart.chartData.datasets[0].data[0] -= credit;
+            gradePointList[0] += parseInt(grade["학점"]);
             break;
           case "교선1":
-            pageData.myData.liberal_S1 += credit;
-            pageData.blueBarChart.chartData.datasets[0].data[1] -= credit;
+            gradePointList[1] += parseInt(grade["학점"]);
             break;
           case "교선2":
-            pageData.myData.liberal_S2 += credit;
-            pageData.blueBarChart.chartData.datasets[0].data[5] -= credit;
+            gradePointList[5] += parseInt(grade["학점"]);
             break;
-
           case "기교":
-            pageData.myData.liberal_B += credit;
-            pageData.blueBarChart.chartData.datasets[0].data[2] -= credit;
+            gradePointList[2] += parseInt(grade["학점"]);
             break;
-
           case "전필":
-            pageData.myData.major_E += credit;
-            pageData.blueBarChart.chartData.datasets[0].data[3] -= credit;
+            gradePointList[3] += parseInt(grade["학점"]);
             break;
-
           case "전선":
-            pageData.myData.major_S += credit;
-            pageData.blueBarChart.chartData.datasets[0].data[4] -= credit;
+            gradePointList[4] += parseInt(grade["학점"]);
             break;
         }
       });
-
-      pageData.myData.total =
-        pageData.myData.liberal_E +
-        pageData.myData.liberal_S1 +
-        pageData.myData.liberal_S2 +
-        pageData.myData.liberal_B +
-        pageData.myData.major_E +
-        pageData.myData.major_S;
-
-      pageData.blueBarChart.chartData.datasets[0].data.forEach((c, index) => {
-        if (c < 0 && index != 5) {
-          pageData.blueBarChart.chartData.datasets[0].data[5] += c;
-          pageData.blueBarChart.chartData.datasets[0].data[index] = 0;
-        }
-      });
-
-      pageData.blueBarChart.chartData.labels.forEach((label, index) => {
-        let credit = pageData.blueBarChart.chartData.datasets[0].data[index];
-        pageData.blueBarChart.chartData.labels[index] += ` (${credit})`;
-      });
-
-      pageData.chartLoad = true;
-      alert("chartload is true");
+      myGrade.value = gradePointList;
+      changeChartData();
     };
-    const setRequrmentCredit = major => {
-      let majorData = pageData.majorList.find(m => m.label == major);
-      pageData.requirementCredit.liberal_E = majorData.liberal_E;
-      pageData.requirementCredit.liberal_S1 = majorData.liberal_S1;
-      pageData.requirementCredit.liberal_S2 = majorData.liberal_S2;
-      pageData.requirementCredit.liberal_B = majorData.liberal_B;
-      pageData.requirementCredit.major_E = majorData.major_E;
-      pageData.requirementCredit.major_S = majorData.major_S;
+
+    const onSelectMajor = () => {
+      chartLoad.value = false;
+
+      if (selectedMajor.value != "") {
+        requirementPoint.value = [
+          parseInt(selectedMajor.value.grade01),
+          parseInt(selectedMajor.value.grade02),
+          parseInt(selectedMajor.value.grade03),
+          parseInt(selectedMajor.value.grade04),
+          parseInt(selectedMajor.value.grade05),
+          parseInt(selectedMajor.value.leftGrade)
+        ];
+        changeChartData();
+      } else {
+        requirementPoint.value = [0, 0, 0, 0, 0, 0];
+      }
+    };
+
+    const changeChartData = () => {
+      blueBarChart.value.chartData.datasets[0].data = myGrade.value;
+
+      const needGradeList = [];
+      let lastNum = 0;
+      requirementPoint.value.forEach((el, index) => {
+        const num = el - myGrade.value[index];
+        if (num < 0) lastNum += num;
+        needGradeList.push(
+          index < 5
+            ? num > 0
+              ? num
+              : 0
+            : num + lastNum > 0
+            ? num + lastNum
+            : 0
+        );
+      });
+
+      blueBarChart.value.chartData.datasets[1].data = needGradeList;
+
+      console.log(blueBarChart.value);
+      setTimeout(() => {
+        chartLoad.value = true;
+      }, 100);
     };
 
     props.checkRouter();
 
     return {
-      pageData,
-      uploadFile,
-      setData,
-      setRequrmentCredit
+      selectedMajor,
+      onSelectMajor,
+      requirementPoint,
+      myGrade,
+      majorList,
+      blueBarChart,
+      chartLoad,
+      uploadFile
     };
   }
 });
