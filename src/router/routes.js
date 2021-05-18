@@ -18,11 +18,6 @@ const routes = [
       { path: "", component: () => import("../pages/RegisterTest.vue") },
     ],
   },
-
-  {
-    path: "/test",
-    component: () => import("../pages/Test.vue"),
-  },
 ];
 
 export default routes;
