@@ -1,36 +1,31 @@
 <template>
   <div>
-    <div class="contents-card contents-title">
+    <div class="cig-card">
       <h1>MajorCheck</h1>
-      <div class="contents-title__right">
+      <p>여기에선 등록되어 있는 전공을 확인하고, 신청할 수 있는 사이트로 이동하는 기능이 있습니다. 현재 등록된 학과는 {{majorList.length}}개.</p>
+      <div class="button-wrapper">
         <a
           class="cig-button"
           href="https://docs.google.com/forms/d/e/1FAIpQLSfvKUcKaZdoS9eXbIYlkc_o5ZFTrqHApygLUXJdbinuAiIXVA/viewform"
-        >추가하기</a>
-      </div>
-
-      <div class="contents-title__content">
-        <p>여기에선 등록되어 있는 전공을 확인하고, 신청할 수 있는 사이트로 이동하는 기능이 있습니다. 현재 등록된 학과는 {{majorList.length}}개.</p>
+        >Submit</a>
       </div>
     </div>
 
-    <div class="contents-card">
-      <h2>
-        List
-        <div class="major-search-wrapper">
-          <select name="admission-year" v-model="state.searchYear" @change="onChangeSearch">
-            <option value>입학년도</option>
-            <option v-for="(item, index) in yearList" :key="index" v-on:value="item">{{item}}</option>
-          </select>
-          <input
-            class="major-search-form"
-            type="text"
-            v-model="state.textInput"
-            v-on:input="state.textInput=$event.target.value"
-            @keyup="onChangeSearch"
-          />
-        </div>
-      </h2>
+    <div class="cig-card">
+      <h1>List</h1>
+      <div class="button-wrapper">
+        <select name="admission-year" v-model="state.searchYear" @change="onChangeSearch">
+          <option value>입학년도</option>
+          <option v-for="(item, index) in yearList" :key="index" v-on:value="item">{{item}}</option>
+        </select>
+        <input
+          class="major-search-form"
+          type="text"
+          v-model="state.textInput"
+          v-on:input="state.textInput=$event.target.value"
+          @keyup="onChangeSearch"
+        />
+      </div>
 
       <ul class="major-table">
         <li>
@@ -129,51 +124,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.contents-card {
-  background-color: #28273f;
-  padding: 20px;
-  margin: 0 0 15px;
-
-  h2 {
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .major-search-form {
-    background-color: transparent;
-    border: 0;
-    border-bottom: 2px solid black;
-  }
-}
-
-.contents-title {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-
-  h1 {
-    margin: 0;
-  }
-
-  & &__right {
-    display: flex;
-    align-items: center;
-  }
-
-  & &__content {
-    width: 100%;
-    p {
-      text-align: left;
-    }
-  }
-}
-
-.major-search-wrapper {
-  display: flex;
-  padding: 0 0 20px 0;
-}
-
 .major-table {
   li {
     display: flex;

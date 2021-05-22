@@ -1,20 +1,20 @@
 <template>
   <div class="dashboard">
-    <section class="upload-panel">
+    <div class="cig-card upload-panel">
       <h1>Excel File Upload</h1>
       <p>
         학사정보시스템 - 좌측 수업/성적 메뉴 - 성적 및 강의평가 - 기이수성적조회
         - 성적엑셀다운로드
       </p>
-      <div class="file-upload-button">
-        <label for="file-input">
+      <div class="button-wrapper">
+        <label for="file-input" class="cig-button">
           <span>Upload</span>
         </label>
         <input type="file" id="file-input" @change="uploadFile" accept="application/vnd.ms-excel" />
       </div>
-    </section>
+    </div>
 
-    <section class="requirement-panel harf-panel">
+    <div class="cig-card requirement-panel harf-panel">
       <h1>Graduate Requirement</h1>
       <div>
         <select v-model="selectedMajor" @change="onSelectMajor">
@@ -48,9 +48,9 @@
           <input name="req5" type="text" v-model="requirementPoint[4]" />
         </div>
       </div>
-    </section>
+    </div>
 
-    <section class="my-credit-panel harf-panel">
+    <div class="cig-card my-credit-panel harf-panel">
       <h1>My Credit</h1>
       <div class="inputs">
         <div class="input">
@@ -78,9 +78,9 @@
           <input name="req5" type="text" v-model="myGrade[5]" />
         </div>
       </div>
-    </section>
+    </div>
 
-    <section class="graph-panel">
+    <div class="cig-card graph-panel">
       <h1>Remain Credits</h1>
       <div class="chart-area">
         <BarChart
@@ -92,13 +92,12 @@
           :extra-options="blueBarChart.extraOptions"
         ></BarChart>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, ref } from "vue";
-
 import XLSX from "xlsx";
 import * as chartConfigs from "../components/Charts/config";
 import config from "../config";
@@ -109,7 +108,6 @@ export default defineComponent({
   components: {
     BarChart
   },
-
   setup(props) {
     const majorList = ref(computed(() => props.majorList));
     const selectedMajor = ref("");
@@ -255,88 +253,6 @@ export default defineComponent({
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-
-  section {
-    background-color: #28273e;
-    border-radius: 4px;
-    margin: 0 0 10px;
-    padding: 8px 16px;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    width: calc(100% - 32px);
-
-    &.harf-panel {
-      width: calc(50% - 37px);
-    }
-
-    h1 {
-      margin: 0 0 8px;
-      padding: 0 0 8px;
-      border-bottom: 1px solid #ffffff66;
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    p {
-      margin: 0;
-    }
-
-    &.upload-panel {
-      .file-upload-button {
-        margin: 16px 0 0;
-        display: flex;
-        justify-content: flex-end;
-
-        label {
-          position: relative;
-          display: flex;
-          color: white;
-          border-radius: 4px;
-          cursor: pointer;
-          overflow: hidden;
-
-          &::before {
-            position: absolute;
-            top: -8px;
-            left: -8px;
-            width: calc(100% + 16px);
-            height: calc(100% + 16px);
-            background: linear-gradient(to bottom left, #1d8cf8, #e14eca);
-            border-radius: 4px;
-            content: "";
-            z-index: 0;
-          }
-
-          span {
-            z-index: 1;
-            padding: 6px 18px;
-            border-radius: 4px;
-            background-color: #8274e5;
-            transition: background-color 0.6s cubic-bezier(0.83, 0, 0.17, 1);
-          }
-
-          &:hover,
-          &:active {
-            span {
-              background-color: transparent;
-            }
-          }
-        }
-
-        input[type="file"] {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          padding: 0;
-          margin: -1px;
-          overflow: hidden;
-          clip: rect(0, 0, 0, 0);
-          border: 0;
-        }
-      }
-    }
-  }
 
   .requirement-panel,
   .my-credit-panel {

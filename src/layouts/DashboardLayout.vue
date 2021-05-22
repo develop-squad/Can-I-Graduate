@@ -128,20 +128,116 @@ export default {
     height: calc(100vh - 89px);
   }
 
-  .cig-button {
-    border-radius: 3px;
-    font-size: 14px;
-    font-weight: 600;
-    color: black;
-    line-height: 1;
-    box-shadow: 0 1px 5px #00000033, 0 2px 2px #00000024,
-      0 3px 1px -2px #0000001f;
-    padding: 10px 16px;
-    background-color: white;
-    text-decoration: none;
+  .cig-card {
+    background-color: #28273e;
+    border-radius: 4px;
+    margin: 0 0 10px;
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: calc(100% - 32px);
+
+    &.harf-panel {
+      width: calc(50% - 37px);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      padding: 0 0 8px;
+      border-bottom: 1px solid #ffffff66;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .button-wrapper {
+      margin: 16px 0 0;
+      display: flex;
+      justify-content: flex-end;
+
+      input[type="file"] {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    }
+  }
+
+  a.cig-button {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white;
+    position: relative;
+    padding: 6px 18px;
+    border-radius: 4px;
+    text-decoration: none;
+    background: linear-gradient(to bottom left, #1d8cf8, #e14eca);
+    z-index: 1;
+    &:hover,
+    &:active {
+      &::before {
+        opacity: 0;
+      }
+    }
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #8274e5;
+      transition: opacity 0.6s cubic-bezier(0.83, 0, 0.17, 1);
+      border-radius: 4px;
+      content: "";
+      z-index: -1;
+    }
+  }
+
+  label.cig-button {
+    position: relative;
+    display: flex;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+
+    &::before {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      width: calc(100% + 16px);
+      height: calc(100% + 16px);
+      background: linear-gradient(to bottom left, #1d8cf8, #e14eca);
+      border-radius: 4px;
+      content: "";
+      z-index: 0;
+    }
+
+    span {
+      z-index: 1;
+      padding: 6px 18px;
+      border-radius: 4px;
+      background-color: #8274e5;
+      transition: background-color 0.6s cubic-bezier(0.83, 0, 0.17, 1);
+    }
+
+    &:hover,
+    &:active {
+      span {
+        background-color: transparent;
+      }
+    }
   }
 }
 </style>
