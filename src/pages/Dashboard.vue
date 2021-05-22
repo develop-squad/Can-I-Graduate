@@ -162,29 +162,13 @@ export default defineComponent({
 
     const setMyGrade = gradeList => {
       const gradePointList = [0, 0, 0, 0, 0, 0];
+      const typeList = ["교필", "교선1", "기교", "전필", "전선", "교선2"];
       const exceptionGradeList = ["F", "FA", "NP"];
       gradeList.forEach(grade => {
         if (exceptionGradeList.findIndex(el => el == grade["등급"]) == -1) {
-          switch (grade["이수구분"]) {
-            case "교필":
-              gradePointList[0] += parseInt(grade["학점"]);
-              break;
-            case "교선1":
-              gradePointList[1] += parseInt(grade["학점"]);
-              break;
-            case "교선2":
-              gradePointList[5] += parseInt(grade["학점"]);
-              break;
-            case "기교":
-              gradePointList[2] += parseInt(grade["학점"]);
-              break;
-            case "전필":
-              gradePointList[3] += parseInt(grade["학점"]);
-              break;
-            case "전선":
-              gradePointList[4] += parseInt(grade["학점"]);
-              break;
-          }
+          gradePointList[
+            typeList.findIndex(el => el == grade["이수구분"])
+          ] += parseInt(grade["학점"]);
         }
       });
       myGrade.value = gradePointList;
