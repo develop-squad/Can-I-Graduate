@@ -20,21 +20,17 @@ import { onMounted } from "vue";
 export default {
   props: {
     tab: String,
-    changeTab: Function,
+    changeTab: Function
   },
   setup(props) {
-    onMounted(() => {
-      // console.log(props);
-    })
-
-    const onClickTab = (param) => {
+    const onClickTab = param => {
       props.changeTab(param);
     };
 
     return {
       onClickTab
     };
-  },
+  }
 };
 </script>
 
