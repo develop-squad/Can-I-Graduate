@@ -68,7 +68,6 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, computed, watch } from "vue";
-import axios from "axios";
 
 export default defineComponent({
   props: ["checkRouter", "majorList"],
@@ -83,7 +82,6 @@ export default defineComponent({
     });
 
     watch(majorList, (majorL, prevMajorL) => {
-      console.log(majorL, prevMajorL);
       refineYearList();
       refineMajorList();
     });
@@ -116,6 +114,8 @@ export default defineComponent({
     };
 
     props.checkRouter();
+    refineYearList();
+    refineMajorList();
 
     return {
       state,

@@ -1,9 +1,9 @@
 <template>
   <div class="layout">
-    <layout-header :tab="state.tab" />
-    <sidebar :tab="state.tab" :changeTab="changeTab"></sidebar>
+    <layout-header :tab="tab" />
+    <sidebar :tab="tab" :changeTab="changeTab"></sidebar>
     <div class="contents-wrapper">
-      <router-view class="contents" :checkRouter="checkRouter" :majorList="state.majorList" />
+      <router-view class="contents" :checkRouter="checkRouter" :majorList="majorList" />
     </div>
   </div>
 </template>
@@ -11,7 +11,7 @@
 <script>
 import Sidebar from "../components/Sidebar";
 import LayoutHeader from "../components/LayoutHeader";
-import { reactive } from "vue";
+import { ref, watch } from "vue";
 import router from "../router";
 import axios from "axios";
 
@@ -21,10 +21,8 @@ export default {
     LayoutHeader
   },
   setup() {
-    const state = reactive({
-      majorList: [],
-      tab: "dashboard"
-    });
+    const majorList = ref([]);
+    const tab = ref("dashboard");
 
     const getMajorList = () => {
       const sheetUrl =
@@ -59,7 +57,7 @@ export default {
             }
           });
 
-          state.majorList = sheetDataList;
+          majorList.value = sheetDataList;
           console.log(sheetDataList);
         })
         .catch(err => {
@@ -81,14 +79,14 @@ export default {
           break;
       }
 
-      if (routeTab != state.tab) {
-        state.tab = routeTab;
+      if (routeTab != tab.value) {
+        tab.value = routeTab;
       }
     };
 
-    const changeTab = tab => {
-      state.tab = tab;
-      switch (tab) {
+    const changeTab = tabName => {
+      tab.value = tabName;
+      switch (tab.value) {
         case "dashboard":
           router.push("/");
           break;
@@ -105,7 +103,8 @@ export default {
     getMajorList();
 
     return {
-      state,
+      majorList,
+      tab,
       changeTab,
       checkRouter
     };

@@ -165,7 +165,6 @@ export default defineComponent({
     const setMyGrade = gradeList => {
       const gradePointList = [0, 0, 0, 0, 0, 0];
       gradeList.forEach(grade => {
-        // console.log(grade["학점"], grade["이수구분"], grade["등급"]);
         switch (grade["이수구분"]) {
           case "교필":
             gradePointList[0] += parseInt(grade["학점"]);
@@ -230,7 +229,6 @@ export default defineComponent({
 
       blueBarChart.value.chartData.datasets[1].data = needGradeList;
 
-      console.log(blueBarChart.value);
       setTimeout(() => {
         chartLoad.value = true;
       }, 100);
