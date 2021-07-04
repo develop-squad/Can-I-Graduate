@@ -1,24 +1,30 @@
-# Can-I-Graduate
+<img src="./docs/doc01.png" width="200">
 
-## Project setup
-```
-npm install
-```
+# Can I Graduate?
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+> 졸업 필요 학점을 얼마나 이수했는지 확인해보는 대시보드 서비스
 
-### Compiles and minifies for production
-```
-npm run build
-```
+![version] ![license] ![support]
 
-### Lints and fixes files
-```
-npm run lint
-```
+세종대학교 학사 정보 시스템에서 엑셀 형식 성적표를 다운 받아서, 본인의 졸업 필요 학점을 확인해보세요!
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 개발 환경
+
+Develop with VS Code
+
+Period : 20.10 ~ 21.07
+
+
+## 개발 인원 정보
+
+### [Moon juhan](https://github.com/MoonJuhan)
+
+Web Frontend Dev
+
+### [GUGIG](https://github.com/GUGIG)
+
+Web Frontend Dev
+
+[version]: https://img.shields.io/badge/version-v1.0-green
+[license]:https://img.shields.io/badge/license-MIT-blue.svg
+[support]: https://img.shields.io/badge/support-Live-green
