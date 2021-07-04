@@ -25,6 +25,6 @@ Web Frontend Dev
 
 Web Frontend Dev
 
-[version]: https://img.shields.io/badge/version-v1.0-green
+[version]: https://img.shields.io/badge/version-v1.01-green
 [license]:https://img.shields.io/badge/license-MIT-blue.svg
 [support]: https://img.shields.io/badge/support-Live-green
