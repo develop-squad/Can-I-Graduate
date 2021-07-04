@@ -29,23 +29,23 @@
       <div class="inputs">
         <div class="input">
           <label for="req1">교양필수(중핵필수)</label>
-          <input name="req1" type="text" v-model="requirementPoint[0]" />
+          <input name="req1" type="text" v-model="requirementPoint[0]" disabled />
         </div>
         <div class="input">
           <label for="req2">교양선택1(중핵필수선택)</label>
-          <input name="req2" type="text" v-model="requirementPoint[1]" />
+          <input name="req2" type="text" v-model="requirementPoint[1]" disabled />
         </div>
         <div class="input">
           <label for="req3">전공기초교양</label>
-          <input name="req3" type="text" v-model="requirementPoint[2]" />
+          <input name="req3" type="text" v-model="requirementPoint[2]" disabled />
         </div>
         <div class="input">
           <label for="req4">전공필수</label>
-          <input name="req4" type="text" v-model="requirementPoint[3]" />
+          <input name="req4" type="text" v-model="requirementPoint[3]" disabled />
         </div>
         <div class="input">
           <label for="req5">전공선택</label>
-          <input name="req5" type="text" v-model="requirementPoint[4]" />
+          <input name="req5" type="text" v-model="requirementPoint[4]" disabled />
         </div>
       </div>
     </div>
@@ -55,27 +55,27 @@
       <div class="inputs">
         <div class="input">
           <label for="req1">교양필수(중핵필수)</label>
-          <input name="req1" type="text" v-model="myGrade[0]" />
+          <input name="req1" type="text" v-model="myGrade[0]" disabled />
         </div>
         <div class="input">
           <label for="req2">교양선택1(중핵필수선택)</label>
-          <input name="req2" type="text" v-model="myGrade[1]" />
+          <input name="req2" type="text" v-model="myGrade[1]" disabled />
         </div>
         <div class="input">
           <label for="req3">전공기초교양</label>
-          <input name="req3" type="text" v-model="myGrade[2]" />
+          <input name="req3" type="text" v-model="myGrade[2]" disabled />
         </div>
         <div class="input">
           <label for="req4">전공필수</label>
-          <input name="req4" type="text" v-model="myGrade[3]" />
+          <input name="req4" type="text" v-model="myGrade[3]" disabled />
         </div>
         <div class="input">
           <label for="req5">전공선택</label>
-          <input name="req5" type="text" v-model="myGrade[4]" />
+          <input name="req5" type="text" v-model="myGrade[4]" disabled />
         </div>
         <div class="input">
           <label for="req5">교양선택2(자유교양)</label>
-          <input name="req5" type="text" v-model="myGrade[5]" />
+          <input name="req5" type="text" v-model="myGrade[5]" disabled />
         </div>
       </div>
     </div>
