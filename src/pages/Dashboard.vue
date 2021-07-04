@@ -3,14 +3,19 @@
     <div class="cig-card upload-panel">
       <h1>Excel File Upload</h1>
       <p>
-        학사정보시스템 - 좌측 수업/성적 메뉴 - 성적 및 강의평가 - 기이수성적조회
+        <a href="https://portal.sejong.ac.kr/">세종대학교 포털</a> - 학사정보시스템 - 좌측 수업/성적 메뉴 - 성적 및 강의평가 - 기이수성적조회 - 성적엑셀다운로드
         - 성적엑셀다운로드
       </p>
       <div class="button-wrapper">
         <label for="file-input" class="cig-button">
           <span>Upload</span>
         </label>
-        <input type="file" id="file-input" @change="uploadFile" accept="application/vnd.ms-excel" />
+        <input
+          type="file"
+          id="file-input"
+          @change="uploadFile"
+          accept="application/vnd.ms-excel, .xlsx"
+        />
       </div>
     </div>
 
@@ -29,23 +34,23 @@
       <div class="inputs">
         <div class="input">
           <label for="req1">교양필수(중핵필수)</label>
-          <input name="req1" type="text" v-model="requirementPoint[0]" />
+          <input name="req1" type="text" v-model="requirementPoint[0]" disabled />
         </div>
         <div class="input">
           <label for="req2">교양선택1(중핵필수선택)</label>
-          <input name="req2" type="text" v-model="requirementPoint[1]" />
+          <input name="req2" type="text" v-model="requirementPoint[1]" disabled />
         </div>
         <div class="input">
           <label for="req3">전공기초교양</label>
-          <input name="req3" type="text" v-model="requirementPoint[2]" />
+          <input name="req3" type="text" v-model="requirementPoint[2]" disabled />
         </div>
         <div class="input">
           <label for="req4">전공필수</label>
-          <input name="req4" type="text" v-model="requirementPoint[3]" />
+          <input name="req4" type="text" v-model="requirementPoint[3]" disabled />
         </div>
         <div class="input">
           <label for="req5">전공선택</label>
-          <input name="req5" type="text" v-model="requirementPoint[4]" />
+          <input name="req5" type="text" v-model="requirementPoint[4]" disabled />
         </div>
       </div>
     </div>
@@ -55,28 +60,43 @@
       <div class="inputs">
         <div class="input">
           <label for="req1">교양필수(중핵필수)</label>
-          <input name="req1" type="text" v-model="myGrade[0]" />
+          <input name="req1" type="text" v-model="myGrade[0]" disabled />
         </div>
         <div class="input">
           <label for="req2">교양선택1(중핵필수선택)</label>
-          <input name="req2" type="text" v-model="myGrade[1]" />
+          <input name="req2" type="text" v-model="myGrade[1]" disabled />
         </div>
         <div class="input">
           <label for="req3">전공기초교양</label>
-          <input name="req3" type="text" v-model="myGrade[2]" />
+          <input name="req3" type="text" v-model="myGrade[2]" disabled />
         </div>
         <div class="input">
           <label for="req4">전공필수</label>
-          <input name="req4" type="text" v-model="myGrade[3]" />
+          <input name="req4" type="text" v-model="myGrade[3]" disabled />
         </div>
         <div class="input">
           <label for="req5">전공선택</label>
-          <input name="req5" type="text" v-model="myGrade[4]" />
+          <input name="req5" type="text" v-model="myGrade[4]" disabled />
         </div>
         <div class="input">
           <label for="req5">교양선택2(자유교양)</label>
-          <input name="req5" type="text" v-model="myGrade[5]" />
+          <input name="req5" type="text" v-model="myGrade[5]" disabled />
         </div>
+      </div>
+    </div>
+
+    <div class="cig-card progress-panel">
+      <h1>Progress Bar</h1>
+      <div class="progress-bar-wrapper">
+        <div v-if="(uploaded && selected)">
+          <div class="progress-bar">
+            <div class="progress-bar__complete" :style="`width: ${progressBarWidth}%`">
+              <span>이수 학점 : {{completeCredit}}</span>
+            </div>
+            <span>필요 학점 : {{maxCredit}}</span>
+          </div>
+        </div>
+        <span v-else>전공을 선택하고, 성적표를 업로드 해주세요.</span>
       </div>
     </div>
 
@@ -91,13 +111,14 @@
           :gradient-stops="blueBarChart.gradientStops"
           :extra-options="blueBarChart.extraOptions"
         ></BarChart>
+        <span v-else>전공을 선택하거나, 성적표를 업로드 해주세요.</span>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from "vue";
+import { defineComponent, computed, ref, watch } from "vue";
 import XLSX from "xlsx";
 import * as chartConfigs from "../components/Charts/config";
 import config from "../config";
@@ -109,6 +130,12 @@ export default defineComponent({
     BarChart
   },
   setup(props) {
+    const selected = ref(false);
+    const uploaded = ref(false);
+    const maxCredit = ref(0);
+    const completeCredit = ref(0);
+    const progressBarWidth = ref(0);
+
     const majorList = ref(computed(() => props.majorList));
     const selectedMajor = ref("");
 
@@ -123,7 +150,7 @@ export default defineComponent({
           {
             label: "이수 학점",
             fill: true,
-            borderColor: config.colors.info,
+            borderColor: '#8274e5',
             borderWidth: 1,
             borderDash: [],
             borderDashOffset: 0.0,
@@ -132,7 +159,7 @@ export default defineComponent({
           {
             label: "필요 학점",
             fill: true,
-            borderColor: "#d1515f",
+            borderColor: "#e14eca",
             borderWidth: 1,
             borderDash: [],
             borderDashOffset: 0.0,
@@ -154,38 +181,40 @@ export default defineComponent({
         const fileData = reader.result;
         const wb = XLSX.read(fileData, { type: "binary" });
         wb.SheetNames.forEach(sheetName => {
-          setMyGrade(XLSX.utils.sheet_to_json(wb.Sheets[sheetName]));
+          setMyGrade(XLSX.utils.sheet_to_json(wb.Sheets[sheetName]), sheetName);
         });
       };
       reader.readAsBinaryString(input.files[0]);
     };
 
-    const setMyGrade = gradeList => {
+    const setMyGrade = (gradeList, sheetName) => {
+      completeCredit.value = 0;
+      let rowName01 = "등급";
+      let rowName02 = "이수구분";
+      let rowName03 = "학점";
+      if (sheetName === "기이수성적") {
+        rowName01 = "__EMPTY_9";
+        rowName02 = "__EMPTY_4";
+        rowName03 = "__EMPTY_7";
+      }
+
       const gradePointList = [0, 0, 0, 0, 0, 0];
+      const typeList = ["교필", "교선1", "기교", "전필", "전선", "교선2"];
+      const exceptionGradeList = ["F", "FA", "NP"];
       gradeList.forEach(grade => {
-        switch (grade["이수구분"]) {
-          case "교필":
-            gradePointList[0] += parseInt(grade["학점"]);
-            break;
-          case "교선1":
-            gradePointList[1] += parseInt(grade["학점"]);
-            break;
-          case "교선2":
-            gradePointList[5] += parseInt(grade["학점"]);
-            break;
-          case "기교":
-            gradePointList[2] += parseInt(grade["학점"]);
-            break;
-          case "전필":
-            gradePointList[3] += parseInt(grade["학점"]);
-            break;
-          case "전선":
-            gradePointList[4] += parseInt(grade["학점"]);
-            break;
+        if (
+          exceptionGradeList.findIndex(el => el == grade[rowName01]) == -1 &&
+          parseInt(grade[rowName03])
+        ) {
+          gradePointList[
+            typeList.findIndex(el => el == grade[rowName02])
+          ] += parseInt(grade[rowName03]);
+          completeCredit.value += parseInt(grade[rowName03]);
         }
       });
       myGrade.value = gradePointList;
       changeChartData();
+      uploaded.value = true;
     };
 
     const onSelectMajor = () => {
@@ -200,9 +229,18 @@ export default defineComponent({
           parseInt(selectedMajor.value.grade05),
           parseInt(selectedMajor.value.leftGrade)
         ];
+        maxCredit.value =
+          parseInt(selectedMajor.value.grade01) +
+          parseInt(selectedMajor.value.grade02) +
+          parseInt(selectedMajor.value.grade03) +
+          parseInt(selectedMajor.value.grade04) +
+          parseInt(selectedMajor.value.grade05) +
+          parseInt(selectedMajor.value.leftGrade);
         changeChartData();
+        selected.value = true;
       } else {
         requirementPoint.value = [0, 0, 0, 0, 0, 0];
+        selected.value = false;
       }
     };
 
@@ -232,6 +270,15 @@ export default defineComponent({
       }, 100);
     };
 
+    watch([maxCredit, completeCredit], () => {
+      if (selected.value && uploaded.value) {
+        setTimeout(() => {
+          progressBarWidth.value =
+            (completeCredit.value / maxCredit.value) * 100;
+        }, 400);
+      }
+    });
+
     props.checkRouter();
 
     return {
@@ -242,7 +289,12 @@ export default defineComponent({
       majorList,
       blueBarChart,
       chartLoad,
-      uploadFile
+      uploadFile,
+      uploaded,
+      selected,
+      maxCredit,
+      completeCredit,
+      progressBarWidth
     };
   }
 });
@@ -254,34 +306,62 @@ export default defineComponent({
   flex-wrap: wrap;
   justify-content: space-between;
 
+  .upload-panel {
+    a {
+      color: white;
+    }
+  }
+
   .requirement-panel,
   .my-credit-panel {
     .inputs {
       display: flex;
       flex-wrap: wrap;
-      input {
+      justify-content: space-between;
+      .input {
         display: flex;
         flex-direction: column;
-        color: white;
-        border-style: solid;
-        border-color: #2b3553;
-        border-width: 1px;
-        background-color: transparent;
-        &:focus {
-          outline: none;
-        }
+        width: calc(50% - 4px);
       }
+    }
+
+    select {
+      width: 100%;
     }
   }
 
-  .requirement-panel {
-    grid-area: requirement-panel;
-  }
-  .my-credit-panel {
-    grid-area: my-credit-panel;
-  }
-  .graph-panel {
-    grid-area: graph-panel;
+  .progress-panel {
+    .progress-bar-wrapper {
+      display: flex;
+
+      & > div {
+        width: 100%;
+      }
+      .progress-bar {
+        width: 100%;
+        height: 28px;
+        background-color: #554e91;
+        position: relative;
+        border-radius: 4px;
+        &__complete {
+          background-color: #8274e5;
+          border-radius: 4px;
+          height: 100%;
+          transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+          width: 0%;
+          span {
+            left: 4px;
+          }
+        }
+        span {
+          top: 0;
+          padding: 2px;
+          position: absolute;
+          right: 4px;
+          color: white;
+        }
+      }
+    }
   }
 }
 </style>
