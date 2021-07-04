@@ -305,34 +305,62 @@ export default defineComponent({
   flex-wrap: wrap;
   justify-content: space-between;
 
+  .upload-panel {
+    a {
+      color: white;
+    }
+  }
+
   .requirement-panel,
   .my-credit-panel {
     .inputs {
       display: flex;
       flex-wrap: wrap;
-      input {
+      justify-content: space-between;
+      .input {
         display: flex;
         flex-direction: column;
-        color: white;
-        border-style: solid;
-        border-color: #2b3553;
-        border-width: 1px;
-        background-color: transparent;
-        &:focus {
-          outline: none;
-        }
+        width: calc(50% - 4px);
       }
+    }
+
+    select {
+      width: 100%;
     }
   }
 
-  .requirement-panel {
-    grid-area: requirement-panel;
-  }
-  .my-credit-panel {
-    grid-area: my-credit-panel;
-  }
-  .graph-panel {
-    grid-area: graph-panel;
+  .progress-panel {
+    .progress-bar-wrapper {
+      display: flex;
+
+      & > div {
+        width: 100%;
+      }
+      .progress-bar {
+        width: 100%;
+        height: 28px;
+        background-color: #554e91;
+        position: relative;
+        border-radius: 4px;
+        &__complete {
+          background-color: #8274e5;
+          border-radius: 4px;
+          height: 100%;
+          transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+          width: 0%;
+          span {
+            left: 4px;
+          }
+        }
+        span {
+          top: 0;
+          padding: 2px;
+          position: absolute;
+          right: 4px;
+          color: white;
+        }
+      }
+    }
   }
 }
 </style>

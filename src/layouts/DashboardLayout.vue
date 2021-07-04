@@ -239,5 +239,17 @@ export default {
       }
     }
   }
+
+  select, input {
+    width: calc(100% - 8px);
+    font-size: 16px;
+    border: 1px solid #2b3553;
+    background-color: transparent;
+    color: white;
+    padding: 4px;
+    &:focus {
+      outline: none;
+    }
+  }
 }
 </style>

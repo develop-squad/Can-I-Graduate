@@ -148,4 +148,15 @@ export default defineComponent({
     }
   }
 }
+
+.button-wrapper {
+  select{
+    width: calc(16% - 8px);
+    margin: 0 8px 0 0;
+  }
+
+  input {
+     width: calc(24% - 8px);
+  }
+}
 </style>
