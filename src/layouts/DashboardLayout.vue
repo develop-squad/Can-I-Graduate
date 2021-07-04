@@ -5,12 +5,14 @@
     <div class="contents-wrapper">
       <router-view class="contents" :checkRouter="checkRouter" :majorList="majorList" />
     </div>
+    <layout-footer />
   </div>
 </template>
 
 <script>
 import Sidebar from "../components/Sidebar";
 import LayoutHeader from "../components/LayoutHeader";
+import LayoutFooter from "../components/LayoutFooter";
 import { ref, watch } from "vue";
 import router from "../router";
 import axios from "axios";
@@ -18,7 +20,8 @@ import axios from "axios";
 export default {
   components: {
     Sidebar,
-    LayoutHeader
+    LayoutHeader,
+    LayoutFooter
   },
   setup() {
     const majorList = ref([]);
@@ -119,13 +122,13 @@ export default {
   height: 100vh;
   .sidebar {
     width: calc(20% - 30px);
-    height: calc(100vh - 89px);
+    height: calc(100vh - 99px);
   }
   .contents-wrapper {
     width: calc(80% - 15px);
     margin: 0 15px 0 0;
     overflow: scroll;
-    height: calc(100vh - 89px);
+    height: calc(100vh - 99px);
   }
 
   .cig-card {
@@ -237,6 +240,18 @@ export default {
       span {
         background-color: transparent;
       }
+    }
+  }
+
+  select, input {
+    width: calc(100% - 8px);
+    font-size: 16px;
+    border: 1px solid #2b3553;
+    background-color: transparent;
+    color: white;
+    padding: 4px;
+    &:focus {
+      outline: none;
     }
   }
 }
