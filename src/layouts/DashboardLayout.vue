@@ -7,6 +7,12 @@
     </div>
     <layout-footer />
   </div>
+  <div class="phone-notice">
+    <div>
+      <img src="../../docs/doc01.png" alt="">
+      <h1>PC로 서비스를 이용해주세요.</h1>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -120,6 +126,10 @@ export default {
   display: flex;
   flex-wrap: wrap;
   height: 100vh;
+
+  @media screen and (max-width: 720px) {
+    display: none;
+  }
   .sidebar {
     width: calc(20% - 30px);
     height: calc(100vh - 99px);
@@ -243,7 +253,8 @@ export default {
     }
   }
 
-  select, input {
+  select,
+  input {
     width: calc(100% - 8px);
     font-size: 16px;
     border: 1px solid #2b3553;
@@ -252,6 +263,21 @@ export default {
     padding: 4px;
     &:focus {
       outline: none;
+    }
+  }
+}
+
+.phone-notice {
+  display: none;
+  @media screen and (max-width: 720px) {
+    display: flex;
+    justify-content: center;
+    img {
+      margin: 10vh 0 0;
+      width: 50%;
+    }
+    h1 {
+      font-size: 1.4rem;
     }
   }
 }
