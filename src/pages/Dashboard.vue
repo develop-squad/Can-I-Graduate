@@ -123,7 +123,7 @@ export default defineComponent({
           {
             label: "이수 학점",
             fill: true,
-            borderColor: config.colors.info,
+            borderColor: '#8274e5',
             borderWidth: 1,
             borderDash: [],
             borderDashOffset: 0.0,
@@ -132,7 +132,7 @@ export default defineComponent({
           {
             label: "필요 학점",
             fill: true,
-            borderColor: "#d1515f",
+            borderColor: "#e14eca",
             borderWidth: 1,
             borderDash: [],
             borderDashOffset: 0.0,
