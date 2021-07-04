@@ -85,6 +85,21 @@
       </div>
     </div>
 
+    <div class="cig-card progress-panel">
+      <h1>Progress Bar</h1>
+      <div class="progress-bar-wrapper">
+        <div v-if="(uploaded && selected)">
+          <div class="progress-bar">
+            <div class="progress-bar__complete" :style="`width: ${progressBarWidth}%`">
+              <span>이수 학점 : {{completeCredit}}</span>
+            </div>
+            <span>필요 학점 : {{maxCredit}}</span>
+          </div>
+        </div>
+        <span v-else>전공을 선택하고, 성적표를 업로드 해주세요.</span>
+      </div>
+    </div>
+
     <div class="cig-card graph-panel">
       <h1>Remain Credits</h1>
       <div class="chart-area">
@@ -102,7 +117,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from "vue";
+import { defineComponent, computed, ref, watch } from "vue";
 import XLSX from "xlsx";
 import * as chartConfigs from "../components/Charts/config";
 import config from "../config";
@@ -114,6 +129,12 @@ export default defineComponent({
     BarChart
   },
   setup(props) {
+    const selected = ref(false);
+    const uploaded = ref(false);
+    const maxCredit = ref(0);
+    const completeCredit = ref(0);
+    const progressBarWidth = ref(0);
+
     const majorList = ref(computed(() => props.majorList));
     const selectedMajor = ref("");
 
@@ -187,10 +208,12 @@ export default defineComponent({
           gradePointList[
             typeList.findIndex(el => el == grade[rowName02])
           ] += parseInt(grade[rowName03]);
+          completeCredit.value += parseInt(grade[rowName03]);
         }
       });
       myGrade.value = gradePointList;
       changeChartData();
+      uploaded.value = true;
     };
 
     const onSelectMajor = () => {
@@ -205,9 +228,18 @@ export default defineComponent({
           parseInt(selectedMajor.value.grade05),
           parseInt(selectedMajor.value.leftGrade)
         ];
+        maxCredit.value =
+          parseInt(selectedMajor.value.grade01) +
+          parseInt(selectedMajor.value.grade02) +
+          parseInt(selectedMajor.value.grade03) +
+          parseInt(selectedMajor.value.grade04) +
+          parseInt(selectedMajor.value.grade05) +
+          parseInt(selectedMajor.value.leftGrade);
         changeChartData();
+        selected.value = true;
       } else {
         requirementPoint.value = [0, 0, 0, 0, 0, 0];
+        selected.value = false;
       }
     };
 
@@ -237,6 +269,15 @@ export default defineComponent({
       }, 100);
     };
 
+    watch([maxCredit, completeCredit], () => {
+      if (selected.value && uploaded.value) {
+        setTimeout(() => {
+          progressBarWidth.value =
+            (completeCredit.value / maxCredit.value) * 100;
+        }, 400);
+      }
+    });
+
     props.checkRouter();
 
     return {
@@ -247,7 +288,12 @@ export default defineComponent({
       majorList,
       blueBarChart,
       chartLoad,
-      uploadFile
+      uploadFile,
+      uploaded,
+      selected,
+      maxCredit,
+      completeCredit,
+      progressBarWidth
     };
   }
 });
