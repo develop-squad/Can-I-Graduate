@@ -4,7 +4,7 @@
       <h1>Excel File Upload</h1>
       <p>
         <a href="https://portal.sejong.ac.kr/">세종대학교 포털</a> - 학사정보시스템 - 좌측 수업/성적 메뉴 - 성적 및 강의평가 - 기이수성적조회 - 성적엑셀다운로드
-        - 성적엑셀다운로드
+        - 업로드 후 전공 선택
       </p>
       <div class="button-wrapper">
         <label for="file-input" class="cig-button">
@@ -34,23 +34,23 @@
       <div class="inputs">
         <div class="input">
           <label for="req1">교양필수(중핵필수)</label>
-          <input name="req1" type="text" v-model="requirementPoint[0]" disabled />
+          <span>{{requirementPoint[0]}}</span>
         </div>
         <div class="input">
           <label for="req2">교양선택1(중핵필수선택)</label>
-          <input name="req2" type="text" v-model="requirementPoint[1]" disabled />
+          <span>{{requirementPoint[1]}}</span>
         </div>
         <div class="input">
           <label for="req3">전공기초교양</label>
-          <input name="req3" type="text" v-model="requirementPoint[2]" disabled />
+          <span>{{requirementPoint[2]}}</span>
         </div>
         <div class="input">
           <label for="req4">전공필수</label>
-          <input name="req4" type="text" v-model="requirementPoint[3]" disabled />
+          <span>{{requirementPoint[3]}}</span>
         </div>
         <div class="input">
           <label for="req5">전공선택</label>
-          <input name="req5" type="text" v-model="requirementPoint[4]" disabled />
+          <span>{{requirementPoint[4]}}</span>
         </div>
       </div>
     </div>
@@ -60,28 +60,34 @@
       <div class="inputs">
         <div class="input">
           <label for="req1">교양필수(중핵필수)</label>
-          <input name="req1" type="text" v-model="myGrade[0]" disabled />
+          <span>{{myGrade[0]}}</span>
         </div>
+        
         <div class="input">
           <label for="req2">교양선택1(중핵필수선택)</label>
-          <input name="req2" type="text" v-model="myGrade[1]" disabled />
+          <span>{{myGrade[1]}}</span>
         </div>
+        
         <div class="input">
           <label for="req3">전공기초교양</label>
-          <input name="req3" type="text" v-model="myGrade[2]" disabled />
+          <span>{{myGrade[2]}}</span>
         </div>
+        
         <div class="input">
           <label for="req4">전공필수</label>
-          <input name="req4" type="text" v-model="myGrade[3]" disabled />
+          <span>{{myGrade[3]}}</span>
         </div>
+        
         <div class="input">
           <label for="req5">전공선택</label>
-          <input name="req5" type="text" v-model="myGrade[4]" disabled />
+          <span>{{myGrade[4]}}</span>
         </div>
+        
         <div class="input">
           <label for="req5">교양선택2(자유교양)</label>
-          <input name="req5" type="text" v-model="myGrade[5]" disabled />
+          <span>{{myGrade[5]}}</span>
         </div>
+        
       </div>
     </div>
 
@@ -150,7 +156,7 @@ export default defineComponent({
           {
             label: "이수 학점",
             fill: true,
-            borderColor: '#8274e5',
+            borderColor: "#8274e5",
             borderWidth: 1,
             borderDash: [],
             borderDashOffset: 0.0,
@@ -314,14 +320,19 @@ export default defineComponent({
 
   .requirement-panel,
   .my-credit-panel {
+    select {
+      border-color: #8274e5;
+      font-weight: bold;
+    }
     .inputs {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       .input {
         display: flex;
-        flex-direction: column;
-        width: calc(50% - 4px);
+        justify-content: space-between;
+        width: 100%;
+        padding: 0 0 4px;
       }
     }
 
