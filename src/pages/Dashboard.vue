@@ -3,14 +3,19 @@
     <div class="cig-card upload-panel">
       <h1>Excel File Upload</h1>
       <p>
-        학사정보시스템 - 좌측 수업/성적 메뉴 - 성적 및 강의평가 - 기이수성적조회
+        <a href="https://portal.sejong.ac.kr/">세종대학교 포털</a> - 학사정보시스템 - 좌측 수업/성적 메뉴 - 성적 및 강의평가 - 기이수성적조회 - 성적엑셀다운로드
         - 성적엑셀다운로드
       </p>
       <div class="button-wrapper">
         <label for="file-input" class="cig-button">
           <span>Upload</span>
         </label>
-        <input type="file" id="file-input" @change="uploadFile" accept="application/vnd.ms-excel" />
+        <input
+          type="file"
+          id="file-input"
+          @change="uploadFile"
+          accept="application/vnd.ms-excel, .xlsx"
+        />
       </div>
     </div>
 
@@ -154,21 +159,34 @@ export default defineComponent({
         const fileData = reader.result;
         const wb = XLSX.read(fileData, { type: "binary" });
         wb.SheetNames.forEach(sheetName => {
-          setMyGrade(XLSX.utils.sheet_to_json(wb.Sheets[sheetName]));
+          setMyGrade(XLSX.utils.sheet_to_json(wb.Sheets[sheetName]), sheetName);
         });
       };
       reader.readAsBinaryString(input.files[0]);
     };
 
-    const setMyGrade = gradeList => {
+    const setMyGrade = (gradeList, sheetName) => {
+      completeCredit.value = 0;
+      let rowName01 = "등급";
+      let rowName02 = "이수구분";
+      let rowName03 = "학점";
+      if (sheetName === "기이수성적") {
+        rowName01 = "__EMPTY_9";
+        rowName02 = "__EMPTY_4";
+        rowName03 = "__EMPTY_7";
+      }
+
       const gradePointList = [0, 0, 0, 0, 0, 0];
       const typeList = ["교필", "교선1", "기교", "전필", "전선", "교선2"];
       const exceptionGradeList = ["F", "FA", "NP"];
       gradeList.forEach(grade => {
-        if (exceptionGradeList.findIndex(el => el == grade["등급"]) == -1) {
+        if (
+          exceptionGradeList.findIndex(el => el == grade[rowName01]) == -1 &&
+          parseInt(grade[rowName03])
+        ) {
           gradePointList[
-            typeList.findIndex(el => el == grade["이수구분"])
-          ] += parseInt(grade["학점"]);
+            typeList.findIndex(el => el == grade[rowName02])
+          ] += parseInt(grade[rowName03]);
         }
       });
       myGrade.value = gradePointList;
