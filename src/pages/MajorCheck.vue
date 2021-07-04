@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="cig-card">
-      <h1>MajorCheck</h1>
+      <h1>Major Check</h1>
       <p>여기에선 등록되어 있는 전공을 확인하고, 신청할 수 있는 사이트로 이동하는 기능이 있습니다. 현재 등록된 학과는 {{majorList.length}}개.</p>
       <div class="button-wrapper">
         <a
@@ -12,7 +12,7 @@
     </div>
 
     <div class="cig-card">
-      <h1>List</h1>
+      <h1>Major List</h1>
       <div class="button-wrapper">
         <select name="admission-year" v-model="state.searchYear" @change="onChangeSearch">
           <option value>입학년도</option>
@@ -24,6 +24,7 @@
           v-model="state.textInput"
           v-on:input="state.textInput=$event.target.value"
           @keyup="onChangeSearch"
+          placeholder="전공명"
         />
       </div>
 

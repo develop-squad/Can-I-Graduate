@@ -111,6 +111,7 @@
           :gradient-stops="blueBarChart.gradientStops"
           :extra-options="blueBarChart.extraOptions"
         ></BarChart>
+        <span v-else>전공을 선택하거나, 성적표를 업로드 해주세요.</span>
       </div>
     </div>
   </div>
