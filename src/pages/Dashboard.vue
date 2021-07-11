@@ -210,12 +210,12 @@ export default defineComponent({
       gradeList.forEach(grade => {
         if (
           exceptionGradeList.findIndex(el => el == grade[rowName01]) == -1 &&
-          parseInt(grade[rowName03])
+          parseFloat(grade[rowName03])
         ) {
           gradePointList[
             typeList.findIndex(el => el == grade[rowName02])
-          ] += parseInt(grade[rowName03]);
-          completeCredit.value += parseInt(grade[rowName03]);
+          ] += parseFloat(grade[rowName03]);
+          completeCredit.value += parseFloat(grade[rowName03]);
         }
       });
       myGrade.value = gradePointList;
